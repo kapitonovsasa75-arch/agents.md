@@ -1,49 +1,38 @@
-# AGENTS.md
 
-![AGENTS.md logo](./public/og.png)
+## Continuity Ledger (compaction-safe)
+Maintain a single Continuity Ledger for this workspace in `
+http://
+CONTINUITY.md`. The ledger is the canonical session briefing designed to survive context compaction; do not rely on earlier chat text unless it’s reflected in the ledger.
 
-[AGENTS.md](https://agents.md) is a simple, open format for guiding coding agents.
+### How it works
+- At the start of every assistant turn: read `
+http://
+CONTINUITY.md`, update it to reflect the latest goal/constraints/decisions/state, then proceed with the work.
+- Update `
+http://
+CONTINUITY.md` again whenever any of these change: goal, constraints/assumptions, key decisions, progress state (Done/Now/Next), or important tool outcomes.
+- Keep it short and stable: facts only, no transcripts. Prefer bullets. Mark uncertainty as UNCONFIRMED (never guess).
+- If you notice missing recall or a compaction/summary event: refresh/rebuild the ledger from visible context, mark gaps UNCONFIRMED, ask up to 1–3 targeted questions, then continue.
 
-Think of AGENTS.md as a README for agents: a dedicated, predictable place
-to provide context and instructions to help AI coding agents work on your project.
+### functions.update_plan vs the Ledger
+-T-5.2 — держит контекст чis for short-term execution scaffolding while you work (a small 3–7 step plan with pending/in_progress/completed).
+- `
+http://
+CONTINUITY.md` is for long-running continuity across compaction (the “what/why/current state”), not a step-by-step task list.
+- Keep them consistent: when the plan or state changes, update the ledger at the intent/progress level (not every micro-step).
 
-Below is a minimal example of an AGENTS.md file:
+### In replies
+- Begin with a brief “Ledger Snapshot” (Goal + Now/Next + Open Questions). Print the full ledger only when it materially changes or when the user asks.
 
-```markdown
-# Sample AGENTS.md file
-
-## Dev environment tips
-- Use `pnpm dlx turbo run where <project_name>` to jump to a package instead of scanning with `ls`.
-- Run `pnpm install --filter <project_name>` to add the package to your workspace so Vite, ESLint, and TypeScript can see it.
-- Use `pnpm create vite@latest <project_name> -- --template react-ts` to spin up a new React + Vite package with TypeScript checks ready.
-- Check the name field inside each package's package.json to confirm the right name—skip the top-level one.
-
-## Testing instructions
-- Find the CI plan in the .github/workflows folder.
-- Run `pnpm turbo run test --filter <project_name>` to run every check defined for that package.
-- From the package root you can just call `pnpm test`. The commit should pass all tests before you merge.
-- To focus on one step, add the Vitest pattern: `pnpm vitest run -t "<test name>"`.
-- Fix any test or type errors until the whole suite is green.
-- After moving files or changing imports, run `pnpm lint --filter <project_name>` to be sure ESLint and TypeScript rules still pass.
-- Add or update tests for the code you change, even if nobody asked.
-
-## PR instructions
-- Title format: [<project_name>] <Title>
-- Always run `pnpm lint` and `pnpm test` before committing.
-```
-
-## Website
-
-This repository also includes a basic Next.js website hosted at https://agents.md/
-that explains the project’s goals in a simple way, and featuring some examples.
-
-### Running the app locally
-1. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-2. Start the development server:
-   ```bash
-   pnpm run dev
-   ```
-3. Open your browser and go to http://localhost:3000
+### `
+http://
+CONTINUITY.md` format (keep headings)
+- Goal (incl. success criteria):
+- Constraints/Assumptions:
+- Key decisions:
+- State:
+- Done:
+- Now:
+- Next:
+- Open questions (UNCONFIRMED if needed):
+- Working set (files/ids/commands
